@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h3 id="username">Hey There , My Name is:</h3>
+    <p>Here is the code for you</p>
+    <pre><code>console.log("Hey There");</code></pre>
+    <input id="userinput" type="text" placeholder="Enter your name" />
+    <button id="button">click me</button>
+  </body>
+
+  <script>
+    const button = document.getElementById("button");
+    const userinput = document.getElementById("userinput");
+    const userName2 = document.getElementById("username");
+    button.addEventListener("click", function () {
+      localStorage.setItem("name", userinput.value);
+      location.reload();
+    });
+    window.addEventListener("load", function () {
+      const value = localStorage.getItem("name");
+      userName2.innerText = value;
+    });
+  </script>
+</html>
