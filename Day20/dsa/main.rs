@@ -218,6 +218,6 @@ fn main() {
     // 9. Longest Subarray with Equal 0s and 1s
     println!("9. Longest Equal Subarray: {}", longest_equal_zeros_ones(&arr2));
 
-    // 10. Subarray with Sum Zero
+    // 10. Subarray with Sum  zero
     println!("10. Has Subarray with Sum Zero: {:?}", has_subarray_with_sum_zero(&[-3, 2, 3, 1, 6]));
 }
