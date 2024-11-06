@@ -1,16 +1,20 @@
-fn main() {
-    let name = String::from("mishal");
-    let bytes = name.as_bytes(); // Convert the string to a byte array
-    let mut reversed_name = String::new(); // Create an empty String to store the reversed name
+fn main(){
+   
+    let  name = String::from("mishal");
 
-    // Iterate through the byte array from the last index to the first
-    let mut i = bytes.len();
-    while i > 0 {
-        i -= 1;
-        // Push each character from the end of the array to the new string
-        reversed_name.push(bytes[i] as char);
+    let  byte_arr = name.as_bytes();
+
+    let mut  new_reversed_string  = String::new();
+
+    let mut i = byte_arr.len();
+
+
+    while i >0 {
+        i -=1;
+        new_reversed_string.push(byte_arr[i] as char);
     }
 
-    println!("Original: {}", name);
-    println!("Reversed: {}", reversed_name);
+    println!("{}",new_reversed_string );
+
+    
 }
