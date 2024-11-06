@@ -23,8 +23,8 @@ impl Solution {
 }
 
 fn main() {
-    let arr = vec![1, 2, 3, 4, 5, 6];
-    let target = 6;
+    let arr = vec![1, 2, 3, 4, 5, 6,10];
+    let target = 14;
     let result = Solution::two_sum(arr, target);
     println!("{:?}", result); // Expected output: [1, 3]
 }
