@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playwrite+GB+S:ital,wght@0,100..400;1,100..400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: rgb(187, 189, 191);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      #hero {
+        background-color: rgb(244, 242, 242);
+        height: 330px;
+        width: 250px;
+        border-radius: 30px;
+        overflow: hidden; /* Add this line */
+        display: flex; /* Make sure it uses flex to align items */
+        flex-direction: column; /* Align children vertically */
+        margin-top: 5px;
+      }
+     #img-div{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+     }
+      #hero img {
+        padding: 10px;
+        height: 180px;
+        width: 220px;
+        border-radius: 30px;
+        object-fit: cover;
+       margin-bottom: 5px;
+      }
+      button {
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        width: 220px;
+        height: 40px;
+        background-color: rgb(107, 107, 247);
+        border: none;
+        color: white;
+        border-radius: 15px;
+        cursor: pointer;
+      }
+      h3 {
+        font-family: "Playwrite GB S", cursive;
+        font-optical-sizing: auto;
+        padding-left: 12px;
+        font-style: normal;
+        margin-top: 0px;
+        margin-left: 10px;
+        margin-bottom: 0px;
+      }
+      p {
+        font-family: "Roboto", sans-serif;
+        font-weight: 300;
+        font-style: normal;
+        padding-left: 12px;
+         margin-top: 0px;
+        margin: 10px;
+      }
+      #btn-div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="hero">
+      <div id="img-div">
+        <img id="card-img"
+          src="https://images.pexels.com/photos/28210179/pexels-photo-28210179/free-photo-of-a-mountain-goat-sitting-on-top-of-a-mountain.jpeg?auto=compress&cs=tinysrgb&w=400&lazy=load"
+          alt="nhi hui bhai load"
+        />
+      </div>
+      <div>
+        <h3 id="card-name">Virat Kohli</h3>
+        <p id="card-email">viratkohli@gmail.com</p>
+        <div id="btn-div"><button id="card-button">Another</button></div>
+      </div>
+    </div>
+  </body>
+  <script>
+     const btn = document.getElementById("card-button");
+     const img = document.getElementById("card-img");
+     const name = document.getElementById("card-name");
+     const email = document.getElementById("card-email");
+
+
+     async function getUserData(){
+        const respons = await  fetch("https://randomuser.me/api/");
+
+        return respons.json();
+     }
+     btn.addEventListener("click", async function(){
+      const result = await  getUserData();
+
+      const userdata = result.results[0];
+      name.innerHTML = `${userdata.name.first} ${userdata.name.last}`;
+      email.innerHTML = userdata.email;
+      img.src=userdata.picture.large;
+     })
+  </script>
+</html>
