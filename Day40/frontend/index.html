@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Landing Page</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            color: #333;
+            background-color: #f5f5f7;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .header .logo img {
+            height: 40px;
+        }
+
+        .header nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .header nav a:hover {
+            color: #0071e3;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 100px 20px;
+            background-color: #fff;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #6e6e73;
+            margin-bottom: 30px;
+        }
+
+        .hero .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            font-size: 16px;
+            background-color: #0071e3;
+            color: #fff;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .hero .btn:hover {
+            background-color: #005bb5;
+        }
+
+        /* Product Section */
+        .products {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 50px 20px;
+            background-color: #f5f5f7;
+        }
+
+        .product {
+            text-align: center;
+            margin: 20px;
+            max-width: 300px;
+        }
+
+        .product img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .product h2 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .product p {
+            font-size: 1rem;
+            color: #6e6e73;
+        }
+
+        .product .btn {
+            display: block;
+            margin: 15px auto;
+            padding: 10px 20px;
+            background-color: #0071e3;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .product .btn:hover {
+            background-color: #005bb5;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #1d1d1f;
+            color: #86868b;
+            text-align: center;
+            padding: 30px 20px;
+            font-size: 14px;
+        }
+
+        .footer a {
+            color: #0071e3;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple Logo">
+        </div>
+        <nav>
+            <a href="#">Mac</a>
+            <a href="#">iPad</a>
+            <a href="#">iPhone</a>
+            <a href="#">Watch</a>
+            <a href="#">Support</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>iPhone 15 Pro</h1>
+        <p>The ultimate iPhone experience. Explore the future with cutting-edge design and performance.</p>
+        <a href="#" class="btn">Learn More</a>
+    </section>
+
+    <!-- Product Section -->
+    <section class="products">
+        <div class="product">
+            <img src="https://www.apple.com/v/mac/home/bg/images/overview/hero/macbook-air-15/macbook_air_15__f02xb9n9ovmm_large_2x.jpg" alt="MacBook Air">
+            <h2>MacBook Air</h2>
+            <p>Incredibly thin and powerful. Designed for performance and portability.</p>
+            <a href="#" class="btn">Shop Now</a>
+        </div>
+        <div class="product">
+            <img src="https://www.apple.com/v/iphone/home/bg/images/overview/hero/iphone_14_pro_hero__cd7rpblqmy42_large_2x.jpg" alt="iPhone 14 Pro">
+            <h2>iPhone 14 Pro</h2>
+            <p>Pro camera system. Pro performance. Meet the future of smartphones.</p>
+            <a href="#" class="btn">Learn More</a>
+        </div>
+        <div class="product">
+            <img src="https://www.apple.com/v/ipad/home/bg/images/overview/hero/ipad_pro_11__d9jiqvwzovci_large_2x.jpg" alt="iPad Pro">
+            <h2>iPad Pro</h2>
+            <p>Supercharged by the M2 chip. Creativity and productivity redefined.</p>
+            <a href="#" class="btn">Buy Now</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2024 Apple Inc. All rights reserved.</p>
+        <p>
+            <a href="#">Privacy Policy</a> | 
+            <a href="#">Terms of Use</a> | 
+            <a href="#">Contact Us</a>
+        </p>
+    </footer>
+</body>
+</html>
