@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diffie-Hellman Encryption & Decryption</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            width: 250px;
+        }
+        #output {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Diffie-Hellman Key Exchange</h2>
+
+    <label for="p">Prime Number (p):</label>
+    <input type="number" id="p" value="23"><br>
+    
+    <label for="g">Base Number (g):</label>
+    <input type="number" id="g" value="5"><br>
+
+    <label for="privateKeyA">Private Key A:</label>
+    <input type="number" id="privateKeyA" value="6"><br>
+
+    <label for="privateKeyB">Private Key B:</label>
+    <input type="number" id="privateKeyB" value="15"><br>
+    
+    <button onclick="generateKeys()">Generate Shared Secret</button>
+    
+    <div id="output"></div>
+
+    <script>
+        // Function for modular exponentiation
+        function modExp(base, exp, mod) {
+            let result = 1;
+            base = base % mod;
+            while (exp > 0) {
+                if (exp % 2 === 1) {
+                    result = (result * base) % mod;
+                }
+                exp = Math.floor(exp / 2);
+                base = (base * base) % mod;
+            }
+            return result;
+        }
+
+        // Function to simulate Diffie-Hellman Key Exchange
+        function generateKeys() {
+            // Get values from input fields
+            const p = parseInt(document.getElementById("p").value);
+            const g = parseInt(document.getElementById("g").value);
+            const privateKeyA = parseInt(document.getElementById("privateKeyA").value);
+            const privateKeyB = parseInt(document.getElementById("privateKeyB").value);
+
+            // Calculate public keys for both parties
+            const publicKeyA = modExp(g, privateKeyA, p);
+            const publicKeyB = modExp(g, privateKeyB, p);
+
+            // Now calculate shared secret for both parties
+            const sharedSecretA = modExp(publicKeyB, privateKeyA, p);
+            const sharedSecretB = modExp(publicKeyA, privateKeyB, p);
+
+            // Display the results
+            let output = `
+                <h3>Results</h3>
+                <p>Public Key A: ${publicKeyA}</p>
+                <p>Public Key B: ${publicKeyB}</p>
+                <p>Shared Secret (A's side): ${sharedSecretA}</p>
+                <p>Shared Secret (B's side): ${sharedSecretB}</p>
+                <p><strong>Shared Secrets Match:</strong> ${sharedSecretA === sharedSecretB}</p>
+            `;
+            document.getElementById("output").innerHTML = output;
+        }
+    </script>
+
+</body>
+</html>
