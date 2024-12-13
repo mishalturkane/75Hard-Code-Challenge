@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diffie-Hellman + AES Encryption</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        input, button, textarea {
+            margin: 10px 0;
+            padding: 10px;
+            width: 300px;
+        }
+        textarea {
+            resize: none;
+            height: 80px;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>Diffie-Hellman + AES Encryption/Decryption</h1>
+
+    <!-- Diffie-Hellman Panel -->
+    <h2>Diffie-Hellman Key Exchange</h2>
+    <label for="p">Prime Number (p):</label><br>
+    <input type="number" id="p" placeholder="Enter a prime number"><br>
+
+    <label for="g">Base Number (g):</label><br>
+    <input type="number" id="g" placeholder="Enter a base number"><br>
+
+    <label for="privateKeyA">Private Key A:</label><br>
+    <input type="number" id="privateKeyA" placeholder="Enter Private Key A"><br>
+
+    <label for="privateKeyB">Private Key B:</label><br>
+    <input type="number" id="privateKeyB" placeholder="Enter Private Key B"><br>
+
+    <button onclick="generateKeys()">Generate Shared Secret</button>
+
+    <div id="output"></div>
+
+    <!-- Encryption Panel -->
+    <h2>Encryption Panel</h2>
+    <label for="text-input">Enter Text to Encrypt:</label><br>
+    <input type="text" id="text-input" placeholder="Enter text"><br>
+
+    <button onclick="aesEncrypt()">Encrypt</button>
+
+    <h3>Encrypted Output</h3>
+    <pre id="encrypted-output"></pre>
+
+    <!-- Decryption Panel -->
+    <h2>Decryption Panel</h2>
+    <label for="encrypted-input">Enter Encrypted Text (Hex):</label><br>
+    <textarea id="encrypted-input" placeholder="Enter encrypted hex text"></textarea><br>
+
+    <button onclick="aesDecrypt()">Decrypt</button>
+
+    <h3>Decrypted Output</h3>
+    <pre id="decrypted-output"></pre>
+
+    <script>
+        let sharedSecretKey; // Shared secret from Diffie-Hellman
+        let lastIV; // To store the IV for AES operations
+
+        // Function for modular exponentiation
+        function modExp(base, exp, mod) {
+            let result = 1;
+            base = base % mod;
+            while (exp > 0) {
+                if (exp % 2 === 1) {
+                    result = (result * base) % mod;
+                }
+                exp = Math.floor(exp / 2);
+                base = (base * base) % mod;
+            }
+            return result;
+        }
+
+        // Function to simulate Diffie-Hellman Key Exchange
+        function generateKeys() {
+            const p = parseInt(document.getElementById("p").value);
+            const g = parseInt(document.getElementById("g").value);
+            const privateKeyA = parseInt(document.getElementById("privateKeyA").value);
+            const privateKeyB = parseInt(document.getElementById("privateKeyB").value);
+
+            if (!p || !g || !privateKeyA || !privateKeyB) {
+                document.getElementById("output").innerHTML = "Please enter all values.";
+                return;
+            }
+
+            const publicKeyA = modExp(g, privateKeyA, p);
+            const publicKeyB = modExp(g, privateKeyB, p);
+            const sharedSecretA = modExp(publicKeyB, privateKeyA, p);
+
+            sharedSecretKey = sharedSecretA.toString(16).padStart(16, "0").slice(0, 16); // Ensure 16 characters
+            document.getElementById("output").innerHTML = `
+                <h3>Results</h3>
+                <p>Public Key A: ${publicKeyA}</p>
+                <p>Public Key B: ${publicKeyB}</p>
+                <p>Shared Secret: ${sharedSecretA} (Used as AES Key)</p>
+            `;
+        }
+
+        // AES Encryption
+        async function aesEncrypt() {
+            const text = document.getElementById("text-input").value;
+
+            if (!text || !sharedSecretKey) {
+                document.getElementById("encrypted-output").textContent =
+                    "Please enter text and generate the shared secret first.";
+                return;
+            }
+
+            const keyData = new TextEncoder().encode(sharedSecretKey);
+            const key = await crypto.subtle.importKey(
+                "raw",
+                keyData,
+                { name: "AES-CBC" },
+                false,
+                ["encrypt", "decrypt"]
+            );
+
+            lastIV = crypto.getRandomValues(new Uint8Array(16));
+            const encodedText = new TextEncoder().encode(text);
+
+            const encrypted = await crypto.subtle.encrypt(
+                { name: "AES-CBC", iv: lastIV },
+                key,
+                encodedText
+            );
+
+            document.getElementById("encrypted-output").textContent =
+                `Encrypted Text (Hex): ${Array.from(new Uint8Array(encrypted))
+                    .map(byte => byte.toString(16).padStart(2, "0")).join("")}\n\n` +
+                `IV (Hex): ${Array.from(lastIV)
+                    .map(byte => byte.toString(16).padStart(2, "0")).join("")}`;
+        }
+
+        // AES Decryption
+        async function aesDecrypt() {
+            const encryptedHex = document.getElementById("encrypted-input").value.trim();
+
+            if (!encryptedHex || !sharedSecretKey) {
+                document.getElementById("decrypted-output").textContent =
+                    "Please enter encrypted text and ensure the shared secret is generated.";
+                return;
+            }
+
+            const encryptedBytes = new Uint8Array(encryptedHex.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
+            const keyData = new TextEncoder().encode(sharedSecretKey);
+
+            const key = await crypto.subtle.importKey(
+                "raw",
+                keyData,
+                { name: "AES-CBC" },
+                false,
+                ["encrypt", "decrypt"]
+            );
+
+            try {
+                const decrypted = await crypto.subtle.decrypt(
+                    { name: "AES-CBC", iv: lastIV },
+                    key,
+                    encryptedBytes
+                );
+
+                document.getElementById("decrypted-output").textContent =
+                    `Decrypted Text: ${new TextDecoder().decode(decrypted)}`;
+            } catch (error) {
+                document.getElementById("decrypted-output").textContent =
+                    "Decryption failed. Please ensure inputs are correct.";
+            }
+        }
+    </script>
+</body>
+</html>
