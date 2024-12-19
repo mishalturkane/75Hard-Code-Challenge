@@ -6,7 +6,7 @@ async fn fetch_data_from_server_1() -> String {
 }
 
 async fn fetch_data_from_server_2() -> String {
-    sleep(Duration::from_secs(3)).await; // Simulates a 3-second delay
+    sleep(Duration::from_secs(2)).await; // Simulates a 3-second delay
     "Data from server 2".to_string()
 }
 
